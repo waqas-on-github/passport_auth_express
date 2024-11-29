@@ -8,6 +8,12 @@ export const register = async (req: Request, res: Response) => {
   try {
     const { email, password, name } = req.body;
 
+    if (!email || !password || !name) {
+      return res
+        .status(400)
+        .json({ message: "Please provide email, password, and name" });
+    }
+
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {

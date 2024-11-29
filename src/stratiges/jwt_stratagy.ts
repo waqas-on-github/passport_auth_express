@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import passport from "passport";
+import { db } from "../router/users";
 
-const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
 const options = {
@@ -14,7 +13,7 @@ export const passportJwt = passport.use(
   new JwtStrategy(options, async (jwt_payload, done) => {
     try {
       // Find user by ID from token
-      const user = await prisma.user.findUnique({
+      const user = await db.user.findUnique({
         where: { id: jwt_payload.id },
       });
 

@@ -10,7 +10,7 @@ export const generateAccessToken = (user: { id: number; email: string }) => {
   });
 };
 
-export const generateRfereshToken = (id: number) => {
+export const generateRefreshToken = (id: number) => {
   return jwt.sign({ sub: id }, JWT_SECRET, {
     expiresIn: "1w",
   });
