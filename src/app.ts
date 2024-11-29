@@ -2,20 +2,27 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
+import { router as authRoutes } from "./router/users";
 
-import * as middlewares from './middlewares';
-import api from './api';
-import MessageResponse from './interfaces/MessageResponse';
+import * as middlewares from "./middlewares";
+import api from "./api";
+import MessageResponse from "./interfaces/MessageResponse";
+import passport from "passport";
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+app.use(express.json());
+//initlizing passport
+app.use(passport.initialize());
+
+app.use("/api/auth", authRoutes);
 app.get<{}, MessageResponse>('/', (req, res) => {
   res.json({
     message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
